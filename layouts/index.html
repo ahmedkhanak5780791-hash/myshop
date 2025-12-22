@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ .Title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #e6e6e6;
+      font-family: Arial, sans-serif;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #222;
+      margin: 80px 0;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: #000;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      letter-spacing: 6px;
+      color: #d6b25e;
+    }
+
+    .hero p {
+      color: #999;
+      max-width: 700px;
+      margin: 20px auto 0;
+      line-height: 1.7;
+    }
+
+    /* TOP BANNER */
+    .top-banner {
+      width: 100%;
+      height: 90vh;
+      overflow: hidden;
+    }
+
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* GRID PRODUCTS */
+    .top-products {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 40px;
+    }
+
+    .product-card {
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 14px;
+    }
+
+    .product-card h3 {
+      margin: 18px 0 8px;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #ddd;
+    }
+
+    .product-desc {
+      margin: 10px 0 12px;
+      color: #bdbdbd;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .rating {
+      color: red;
+      font-size: 14px;
+    }
+
+    .price {
+      margin-top: 8px;
+      color: #d6b25e;
+    }
+
+    /* VERTICAL PRODUCT */
+    .product {
+      max-width: 900px;
+      margin: 80px 0 80px 80px;
+      text-align: left;
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 14px;
+    }
+
+    .product h2 {
+      margin: 20px 0 10px;
+      color: #d6b25e;
+    }
+
+    /* INGREDIENTS */
+    .ingredient {
+      max-width: 800px;
+      margin: 100px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .ingredient img {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+
+    .ingredient h2 {
+      font-size: 26px;
+      color: #d6b25e;
+      margin-bottom: 15px;
+    }
+
+    .ingredient p {
+      line-height: 1.9;
+      color: #bdbdbd;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- TITLE + DESCRIPTION (TOP) -->
+<section class="hero">
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Params.description }}</p>
+</section>
+
+<!-- FULL BANNER (TITLE KE BAAD) -->
+{{ with .Params.banner_image }}
+<section class="top-banner">
+  <img src="{{ . }}" alt="Banner">
+</section>
+{{ end }}
+
+<!-- GRID PRODUCTS -->
+<section class="top-products">
+  <div class="product-grid">
+    {{ range .Params.top_products }}
+      <div class="product-card">
+        <img src="{{ .image }}" alt="{{ .title }}">
+        <h3>{{ .title }}</h3>
+
+        <p class="product-desc">
+          {{ .desc }}
+        </p>
+
+        <div class="rating">
+          {{ range seq .rating }}★{{ end }}
+        </div>
+
+        <div class="price">
+          {{ .price }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</section>
+
+<hr>
+
+<!-- VERTICAL PRODUCTS -->
+{{ range .Params.top_products }}
+  <div class="product">
+    <img src="{{ .image }}" alt="{{ .title }}">
+    <h2>{{ .title }}</h2>
+
+    <p class="product-desc">
+      {{ .desc }}
+    </p>
+
+    <div class="rating">
+      {{ range seq .rating }}★{{ end }}
+    </div>
+
+    <p class="price">
+      {{ .price }}
+    </p>
+  </div>
+{{ end }}
+
+<hr>
+
+<!-- INGREDIENTS -->
+{{ range $i, $ing := .Params.ingredients }}
+  <section class="ingredient">
+    <img src="https://picsum.photos/900/600?random={{ add $i 1 }}">
+    <h2>{{ $ing.name }}</h2>
+    <p>{{ $ing.text }}</p>
+  </section>
+{{ end }}
+
+<!-- MARKDOWN BODY (optional) -->
+{{ if .Content }}
+<div>
+  {{ .Content }}
+</div>
+{{ end }}
+
+</body>
+</html>
