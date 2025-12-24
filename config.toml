@@ -1,3 +1,3 @@
-baseURL = "https://ahmedkhanak5780791-hash.github.io/myshop/"
+baseURL = "http://localhost:1313/"
 languageCode = "en-us"
 title = "Hugo Demo"
